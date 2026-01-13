@@ -100,86 +100,108 @@
         }
 
         nav {
-            position: sticky;
-            top: 0;
-            z-index: 100;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 40px;
-            background-color: rgba(0, 0, 0, 0.7);
-            border-bottom: 1px solid var(--color-border);
-            backdrop-filter: blur(10px);
+            padding: 20px 50px;
+            background: var(--color-bg-secondary);
+            border-bottom: 2px solid var(--color-border);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
         }
 
         nav a {
             color: var(--color-text-primary);
             text-decoration: none;
             margin: 0 20px;
-            font-size: 14px;
-            transition: text-shadow 0.3s ease;
+            transition: all 0.3s ease;
+            font-size: 16px;
         }
 
         nav a:hover {
             text-shadow: var(--glow-text);
+            color: var(--color-accent-highlight);
         }
 
         #intro {
             display: flex;
             align-items: center;
-            justify-content: space-around;
-            padding: 100px 5vw 0 5vw;
+            justify-content: center;
+            flex-direction: row;
             min-height: 100vh;
-            gap: 40px;
+            padding: 100px 5vw 0 5vw;
+            width: 100%;
+            gap: 4vw;
+            margin-top: 60px;
         }
 
         .intro-block {
-            flex: 1;
-            max-width: 500px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            max-width: 550px;
+            text-align: left;
         }
 
         .intro-title {
             font-size: 48px;
-            font-weight: bold;
+            font-weight: var(--font-weight-bold);
+            color: var(--color-text-primary);
             margin-bottom: 20px;
             text-shadow: var(--glow-text-strong);
         }
 
         .intro-desc {
-            font-size: 16px;
             color: var(--color-text-secondary);
-            margin-bottom: 30px;
-            line-height: 1.8;
+            line-height: 1.5;
+            max-width: 100%;
+            padding-bottom: 40px;
+            font-size: 18px;
         }
 
         .intro-btn {
-            background-color: transparent;
+            padding: 12px 24px;
             border: 2px solid var(--color-border);
             color: var(--color-text-primary);
-            padding: 10px 20px;
-            margin-right: 10px;
-            margin-bottom: 10px;
+            background: transparent;
             cursor: pointer;
             font-family: var(--font-family-primary);
+            font-size: 16px;
             transition: all 0.3s ease;
-            text-shadow: var(--glow-text);
+            margin-right: 15px;
         }
 
         .intro-btn:hover {
-            background-color: var(--color-border);
-            color: #000;
+            background: var(--color-border);
+            color: var(--color-bg-primary);
             box-shadow: var(--glow-box-strong);
         }
 
         .fade-in-section {
             opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            transform: translateY(40px);
+            transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1);
         }
 
         .fade-in-section.is-visible {
             opacity: 1;
             transform: translateY(0);
+        }
+
+        .fade-in-section.is-visible > :nth-child(2) {
+            transition-delay: 0.1s;
+        }
+
+        .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            font-size: 24px;
+            color: var(--color-text-primary);
+            text-shadow: var(--glow-text-strong);
         }
 
         @media (max-width: 768px) {
@@ -331,8 +353,166 @@
                 this.canvas.addEventListener('mousemove', (e) => this.handleMouseMove(e));
                 this.canvas.addEventListener('mouseleave', () => this.handleMouseLeave());
 
-                this.generateParticles();
+                this.loadImage();
                 this.animate();
+            }
+
+            loadImage() {
+                const img = new Image();
+                img.crossOrigin = 'Anonymous';
+                // Load the actual user photo
+                img.src = '/assets/profile.png';
+                
+                img.onload = () => {
+                    this.generateParticlesFromImage(img);
+                    this.imageLoaded = true;
+                };
+
+                img.onerror = () => {
+                    // Fallback if image fails to load
+                    console.warn('Image failed to load, using default pattern');
+                    this.generateParticles();
+                    this.imageLoaded = true;
+                };
+
+                // Timeout fallback
+                setTimeout(() => {
+                    if (!this.imageLoaded) {
+                        this.generateParticles();
+                        this.imageLoaded = true;
+                    }
+                }, 2000);
+            }
+
+            generateParticlesFromImage(img) {
+                const nodeSpacing = 4;
+                const width = this.canvas.width;
+                const height = this.canvas.height;
+                
+                // Create off-screen canvas to analyze image
+                const offCanvas = document.createElement('canvas');
+                offCanvas.width = width;
+                offCanvas.height = height;
+                const offCtx = offCanvas.getContext('2d');
+
+                // Draw image on canvas
+                const scale = 0.85;
+                const imgAspect = img.width / img.height;
+                let drawHeight = height * scale;
+                let drawWidth = drawHeight * imgAspect;
+
+                if (drawWidth > width * scale) {
+                    drawWidth = width * scale;
+                    drawHeight = drawWidth / imgAspect;
+                }
+
+                const offsetX = (width - drawWidth) / 2;
+                const offsetY = (height - drawHeight) / 2;
+
+                offCtx.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
+                const imageData = offCtx.getImageData(0, 0, width, height);
+                const pixels = imageData.data;
+
+                // Green color palette - different tones based on brightness
+                const getGreenColor = (brightness) => {
+                    // Map brightness to green tones
+                    // Dark shadows: #001a00 (0, 26, 0)
+                    // Mid-dark: #003d00 (0, 61, 0)
+                    // Mid: #00aa2e (0, 170, 46)
+                    // Bright: #00ff41 (0, 255, 65)
+                    // Very bright: #66ff99 (102, 255, 153)
+                    
+                    let r, g, b;
+                    if (brightness < 0.15) {
+                        // Very dark - almost black with slight green
+                        r = 0;
+                        g = Math.floor(brightness * 150);
+                        b = 0;
+                    } else if (brightness < 0.35) {
+                        // Dark green
+                        r = 0;
+                        g = Math.floor(30 + brightness * 80);
+                        b = 0;
+                    } else if (brightness < 0.55) {
+                        // Mid green
+                        r = 0;
+                        g = Math.floor(110 + brightness * 60);
+                        b = Math.floor(brightness * 30);
+                    } else if (brightness < 0.75) {
+                        // Bright green
+                        r = 0;
+                        g = Math.floor(170 + brightness * 85);
+                        b = Math.floor(brightness * 40);
+                    } else {
+                        // Very bright highlight green
+                        r = Math.floor(brightness * 50);
+                        g = 255;
+                        b = Math.floor(70 + brightness * 85);
+                    }
+                    
+                    return { 
+                        r: Math.max(0, Math.min(255, r)),
+                        g: Math.max(0, Math.min(255, g)),
+                        b: Math.max(0, Math.min(255, b))
+                    };
+                };
+
+                // Generate particles from image data
+                for (let y = 0; y < height; y += nodeSpacing) {
+                    for (let x = 0; x < width; x += nodeSpacing) {
+                        const i = (y * width + x) * 4;
+                        const r = pixels[i];
+                        const g = pixels[i + 1];
+                        const b = pixels[i + 2];
+                        const a = pixels[i + 3];
+
+                        // Calculate brightness (luminosity)
+                        const brightness = (r * 0.299 + g * 0.587 + b * 0.114) / 255;
+
+                        // Only create particles for visible pixels
+                        if (a > 30 && brightness > 0.08) {
+                            const scatter = (Math.random() - 0.5) * 120;
+                            const greenColor = getGreenColor(brightness);
+                            
+                            this.nodes.push({
+                                x: x + scatter,
+                                y: y + scatter,
+                                targetX: x,
+                                targetY: y,
+                                vx: 0,
+                                vy: 0,
+                                brightness: brightness,
+                                alpha: 0,
+                                baseAlpha: 0.35 + brightness * 0.65,
+                                size: 0.6 + brightness * 1.6,
+                                color: greenColor
+                            });
+                        }
+                    }
+                }
+
+                // Create edges between nearby particles - optimized for performance
+                const maxDist = 50;
+                for (let i = 0; i < this.nodes.length; i++) {
+                    let connections = 0;
+                    // Check nearby nodes only (spatial optimization)
+                    for (let j = i + 1; j < this.nodes.length && connections < 4; j++) {
+                        const dx = this.nodes[i].x - this.nodes[j].x;
+                        const dy = this.nodes[i].y - this.nodes[j].y;
+                        const dist2 = dx * dx + dy * dy;
+                        const maxDist2 = maxDist * maxDist;
+
+                        if (dist2 < maxDist2 && dist2 > 1) {
+                            this.edges.push({
+                                from: i,
+                                to: j,
+                                dist2: dist2,
+                                maxDist2: maxDist2
+                            });
+                            connections++;
+                        }
+                    }
+                }
             }
 
             generateParticles() {
@@ -436,7 +616,7 @@
                     node.alpha = node.baseAlpha * easeOut;
                 }
 
-                // Draw edges
+                // Draw edges - optimized with early opacity check
                 this.ctx.globalCompositeOperation = 'lighter';
                 this.ctx.lineWidth = 0.8;
                 this.ctx.lineCap = 'round';
@@ -445,21 +625,25 @@
                 for (let edge of this.edges) {
                     const n1 = this.nodes[edge.from];
                     const n2 = this.nodes[edge.to];
-                    const opacity = (1 - edge.dist / edge.maxDist) * n1.alpha * n2.alpha * 0.5;
-                    if (opacity > 0.01) {
-                        const color = n1.color || { r: 0, g: 255, b: 65 };
-                        this.ctx.strokeStyle = `rgba(${color.r}, ${color.g}, ${color.b}, ${opacity})`;
-                        this.ctx.beginPath();
-                        this.ctx.moveTo(n1.x, n1.y);
-                        this.ctx.lineTo(n2.x, n2.y);
-                        this.ctx.stroke();
+                    const alphaProduct = n1.alpha * n2.alpha;
+
+                    if (alphaProduct > 0.02) {
+                        const opacity = (1 - Math.sqrt(edge.dist2) / Math.sqrt(edge.maxDist2)) * alphaProduct * 0.5;
+                        if (opacity > 0.01) { // Skip very faint edges for performance
+                            const color = n1.color || { r: 0, g: 255, b: 65 };
+                            this.ctx.strokeStyle = `rgba(${color.r}, ${color.g}, ${color.b}, ${opacity})`;
+                            this.ctx.beginPath();
+                            this.ctx.moveTo(n1.x, n1.y);
+                            this.ctx.lineTo(n2.x, n2.y);
+                            this.ctx.stroke();
+                        }
                     }
                 }
 
-                // Draw nodes
+                // Draw nodes - batch rendering for better performance
                 this.ctx.globalCompositeOperation = 'source-over';
                 for (let node of this.nodes) {
-                    if (node.alpha > 0.01) {
+                    if (node.alpha > 0.01) { // Skip invisible nodes
                         const color = node.color || { r: 0, g: 255, b: 65 };
                         this.ctx.fillStyle = `rgba(${color.r}, ${color.g}, ${color.b}, ${node.alpha})`;
                         this.ctx.beginPath();
