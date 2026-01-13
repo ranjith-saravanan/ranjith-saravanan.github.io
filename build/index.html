@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ranjith S - Data Scientist & Machine Learning Engineer</title>
+    <style>
+        :root {
+            --color-bg-primary: #000;
+            --color-bg-secondary: #0a0a0a;
+            --color-bg-tertiary: #111;
+            --color-text-primary: #00ff41;
+            --color-text-secondary: #0c3;
+            --color-text-muted: #0a2;
+            --color-accent-error: #f44;
+            --color-accent-link: #48f;
+            --color-accent-highlight: #ff0;
+            --color-accent-warning: #fa0;
+            --color-border: #00ff41;
+            --color-shadow: #00ff4126;
+            --color-glow: #00ff414d;
+            --font-family-primary: "Fira Code","JetBrains Mono","Roboto Mono","Courier New",monospace;
+            --font-size-base: 16px;
+            --font-size-heading-1: 24px;
+            --font-size-heading-2: 20px;
+            --font-size-heading-3: 18px;
+            --font-size-body: 14px;
+            --font-size-small: 12px;
+            --font-weight-regular: 400;
+            --font-weight-bold: 600;
+            --line-height-tight: 1.3;
+            --line-height-normal: 1.5;
+            --line-height-relaxed: 1.8;
+            --letter-spacing-normal: 0.5px;
+            --letter-spacing-wide: 1px;
+            --spacing-xs: 4px;
+            --spacing-sm: 8px;
+            --spacing-md: 16px;
+            --spacing-lg: 24px;
+            --spacing-xl: 32px;
+            --spacing-2xl: 48px;
+            --glow-text: 0 0 4px currentColor;
+            --glow-text-strong: 0 0 8px currentColor,0 0 16px #00ff4180;
+            --glow-box: 0 0 10px #00ff4133;
+            --glow-box-strong: 0 0 20px #00ff414d,inset 0 0 10px #00ff411a;
+            --blur-vignette: inset 0 0 60px #000c;
+            --transition-fast: 150ms ease-out;
+            --transition-normal: 300ms ease-in-out;
+            --transition-slow: 500ms ease-in-out;
+            --border-thin: 1px;
+            --border-medium: 2px;
+            --border-thick: 3px;
+            --border-style: solid;
+            --scale-mobile: 1.15;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background: linear-gradient(135deg, #010, #000);
+            font-family: var(--font-family-primary);
+            font-size: var(--font-size-base);
+            letter-spacing: var(--letter-spacing-normal);
+            line-height: var(--line-height-normal);
+        }
+
+        body {
+            background-color: var(--color-bg-primary);
+            color: var(--color-text-primary);
+            font-weight: var(--font-weight-regular);
+            overflow-x: hidden;
+            position: relative;
+            height: 100vh;
+        }
+
+        .App {
+            background-color: var(--color-bg-primary);
+            color: var(--color-text-primary);
+            display: flex;
+            flex-direction: column;
+            font-family: var(--font-family-primary);
+            margin: auto;
+            transition: background-color 0.3s ease;
+        }
+
+        #content {
+            overflow-x: hidden;
+            width: 100vw;
+        }
+
+        [id] {
+            scroll-margin-top: 80px;
+        }
+
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            background-color: rgba(0, 0, 0, 0.7);
+            border-bottom: 1px solid var(--color-border);
+            backdrop-filter: blur(10px);
+        }
+
+        nav a {
+            color: var(--color-text-primary);
+            text-decoration: none;
+            margin: 0 20px;
+            font-size: 14px;
+            transition: text-shadow 0.3s ease;
+        }
+
+        nav a:hover {
+            text-shadow: var(--glow-text);
+        }
+
+        #intro {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            padding: 100px 5vw 0 5vw;
+            min-height: 100vh;
+            gap: 40px;
+        }
+
+        .intro-block {
+            flex: 1;
+            max-width: 500px;
+        }
+
+        .intro-title {
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-shadow: var(--glow-text-strong);
+        }
+
+        .intro-desc {
+            font-size: 16px;
+            color: var(--color-text-secondary);
+            margin-bottom: 30px;
+            line-height: 1.8;
+        }
+
+        .intro-btn {
+            background-color: transparent;
+            border: 2px solid var(--color-border);
+            color: var(--color-text-primary);
+            padding: 10px 20px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            font-family: var(--font-family-primary);
+            transition: all 0.3s ease;
+            text-shadow: var(--glow-text);
+        }
+
+        .intro-btn:hover {
+            background-color: var(--color-border);
+            color: #000;
+            box-shadow: var(--glow-box-strong);
+        }
+
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .fade-in-section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                padding: 15px 20px;
+            }
+
+            nav a {
+                margin: 0 10px;
+                font-size: 14px;
+            }
+
+            #intro {
+                flex-direction: column;
+                padding: 100px 20px 0 20px;
+            }
+
+            .intro-title {
+                font-size: 36px;
+            }
+
+            .intro-desc {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="App" id="root">
+        <nav>
+            <div class="logo" style="color: var(--color-text-primary); font-weight: bold; font-size: 18px;">Ranjith S</div>
+            <div>
+                <a href="#intro">Home</a>
+                <a href="#about">About</a>
+                <a href="#experience">Experience</a>
+                <a href="#projects">Projects</a>
+            </div>
+        </nav>
+        <div id="content">
+            <section id="intro" class="fade-in-section is-visible">
+                <div class="intro-block">
+                    <h1 class="intro-title">Hi, I'm Ranjith S</h1>
+                    <div class="intro-desc">
+                        Data Scientist & Machine Learning Engineer<br><br>
+                        I'm an entry-level Data Scientist specializing in Machine Learning, NLP, and Business Analytics, with hands-on experience building end-to-end data products—from raw data to deployed models and dashboards.<br><br>
+                        I focus on solving real-world problems using data-driven insights, predictive modeling, and scalable ML pipelines.
+                    </div>
+                    <div>
+                        <button class="intro-btn">View My Work</button>
+                        <button class="intro-btn">Get In Touch</button>
+                    </div>
+                </div>
+                <div class="intro-simulation" style="width: 550px; height: 550px; display: flex; align-items: center; justify-content: center;">
+                    <canvas id="particle-canvas" width="550" height="550" style="display: block; border-radius: 8px; cursor: pointer; background: rgb(0, 0, 0);"></canvas>
+                </div>
+            </section>
+            <section id="about" style="padding: 100px 5vw; min-height: 50vh;">
+                <h2 class="fade-in-section" style="font-size: 32px; margin-bottom: 30px; color: var(--color-text-primary);">/ about me</h2>
+                <p class="fade-in-section" style="color: var(--color-text-secondary); font-size: 18px; max-width: 800px; line-height: 1.8;">
+                    I am a Data Science undergraduate (AI & Data Science) with strong practical experience in predictive modeling, NLP systems, time-series forecasting, and data visualization.<br><br>
+                    Through internships and independent projects, I have worked on real business datasets, built machine learning models with measurable impact, and deployed analytics solutions using modern tools.<br><br>
+                    I enjoy turning messy data into actionable insights and building ML systems that are practical, interpretable, and deployable.
+                </p>
+                <h3 class="fade-in-section" style="font-size: 20px; margin-top: 40px; margin-bottom: 20px; color: var(--color-text-primary);">/ professional snapshot</h3>
+                <ul class="fade-in-section" style="color: var(--color-text-secondary); font-size: 16px; max-width: 800px; line-height: 1.8; list-style-position: inside;">
+                    <li>Entry-level Data Scientist & ML Engineer</li>
+                    <li>Strong foundation in Python, SQL, and Machine Learning</li>
+                    <li>Experience with end-to-end ML pipelines</li>
+                    <li>Built projects with quantifiable business impact</li>
+                    <li>Hands-on exposure to deployment, dashboards, and cloud basics</li>
+                </ul>
+            </section>
+            <section id="experience" style="padding: 100px 5vw; min-height: 50vh;">
+                <h2 class="fade-in-section" style="font-size: 32px; margin-bottom: 30px; color: var(--color-text-primary);">/ technologies</h2>
+                <div class="fade-in-section" style="color: var(--color-text-secondary); font-size: 16px; max-width: 800px; line-height: 1.8;">
+                    <h3 style="color: var(--color-text-primary); margin-top: 20px; margin-bottom: 10px;">Programming</h3>
+                    <p>Python • SQL</p>
+                    <h3 style="color: var(--color-text-primary); margin-top: 20px; margin-bottom: 10px;">Machine Learning</h3>
+                    <p>Regression & Classification • XGBoost, Random Forest • Model tuning & evaluation</p>
+                    <h3 style="color: var(--color-text-primary); margin-top: 20px; margin-bottom: 10px;">NLP</h3>
+                    <p>TF-IDF • BERT • Sentiment Analysis • Text similarity</p>
+                    <h3 style="color: var(--color-text-primary); margin-top: 20px; margin-bottom: 10px;">Data Analysis & Visualization</h3>
+                    <p>Pandas, NumPy • Power BI, Tableau</p>
+                    <h3 style="color: var(--color-text-primary); margin-top: 20px; margin-bottom: 10px;">Deployment & Tools</h3>
+                    <p>Flask • Docker • Git & GitHub • AWS EC2 • AWS S3</p>
+                </div>
+                <h2 class="fade-in-section" style="font-size: 32px; margin-top: 60px; margin-bottom: 30px; color: var(--color-text-primary);">/ professional experience</h2>
+                <div class="fade-in-section" style="color: var(--color-text-secondary); font-size: 16px; max-width: 800px; line-height: 1.8;">
+                    <h3 style="color: var(--color-text-primary); margin-bottom: 10px;">Data Science Intern — Online Analytics Startup (Remote)</h3>
+                    <p style="color: var(--color-text-muted); margin-bottom: 10px;">2024 | 1 Month</p>
+                    <ul style="list-style-position: inside;">
+                        <li>Cleaned, processed, and analyzed real-world business datasets using Python (Pandas, NumPy) and SQL</li>
+                        <li>Built a classification model to predict lead conversion, improving prediction accuracy by 18%</li>
+                        <li>Designed data visualizations, dashboards, and analytical reports to communicate insights to stakeholders</li>
+                        <li>Supported data-driven decision making through exploratory and statistical analysis</li>
+                    </ul>
+                </div>
+            </section>
+            <section id="projects" style="padding: 100px 5vw; min-height: 50vh;">
+                <h2 class="fade-in-section" style="font-size: 32px; margin-bottom: 30px; color: var(--color-text-primary);">/ projects</h2>
+                <div class="fade-in-section" style="color: var(--color-text-secondary); font-size: 16px; max-width: 800px; line-height: 1.8;">
+                    <h3 style="color: var(--color-text-primary); margin-bottom: 10px; margin-top: 20px;">Customer Churn Prediction System</h3>
+                    <p>Built a churn prediction model to identify high-risk customers using historical telecom data. Performed feature engineering and model tuning, achieving 92% accuracy and enabling a simulated 15% reduction in churn.<br>
+                    <span style="color: var(--color-text-muted);">Tech: Python, XGBoost, Pandas, Scikit-learn</span></p>
+                    
+                    <h3 style="color: var(--color-text-primary); margin-bottom: 10px; margin-top: 20px;">AI-Based Resume Screening System</h3>
+                    <p>Developed an NLP-powered resume screening tool using TF-IDF and cosine similarity to rank candidates against job descriptions. Reduced manual screening time by 60%.<br>
+                    <span style="color: var(--color-text-muted);">Tech: Python, NLP, Scikit-learn</span></p>
+                    
+                    <h3 style="color: var(--color-text-primary); margin-bottom: 10px; margin-top: 20px;">Sales Forecasting Dashboard</h3>
+                    <p>Built a time-series sales forecasting model using historical data and visualized insights through interactive Power BI dashboards. Improved forecast accuracy by 20%.<br>
+                    <span style="color: var(--color-text-muted);">Tech: Time Series Analysis, Power BI, Python</span></p>
+                    
+                    <h3 style="color: var(--color-text-primary); margin-bottom: 10px; margin-top: 20px;">Stress Analysis Machine Learning Model</h3>
+                    <p>Developed a real-time stress detection system using wearable biosignal data, achieving 87.3% accuracy. Designed for low-latency predictions suitable for edge deployment.<br>
+                    <span style="color: var(--color-text-muted);">Tech: Python, Scikit-learn, XGBoost, Time-Series Analysis</span></p>
+                </div>
+                <h2 class="fade-in-section" style="font-size: 32px; margin-top: 60px; margin-bottom: 30px; color: var(--color-text-primary);">/ education</h2>
+                <div class="fade-in-section" style="color: var(--color-text-secondary); font-size: 16px; max-width: 800px; line-height: 1.8;">
+                    <h3 style="color: var(--color-text-primary); margin-bottom: 10px;">B.Tech – Artificial Intelligence & Data Science</h3>
+                    <p style="color: var(--color-text-muted);">Karunya Institute of Technology and Sciences, India<br>
+                    2024 – 2028 | CGPA: 7.6 / 10</p>
+                </div>
+                <h2 class="fade-in-section" style="font-size: 32px; margin-top: 60px; margin-bottom: 30px; color: var(--color-text-primary);">/ certifications & achievements</h2>
+                <div class="fade-in-section" style="color: var(--color-text-secondary); font-size: 16px; max-width: 800px; line-height: 1.8;">
+                    <ul style="list-style-position: inside;">
+                        <li>Smart India Hackathon (SIH) – Shortlisted Certificate</li>
+                        <li>Google Data Analytics Professional Certificate (Udemy)</li>
+                        <li>Introduction to Machine Learning (Udemy)</li>
+                    </ul>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <script>
+        // Particle Portrait Canvas Animation
+        class ParticlePortrait {
+            constructor(canvasId) {
+                this.canvas = document.getElementById(canvasId);
+                this.ctx = this.canvas.getContext('2d', { alpha: true });
+                this.nodes = [];
+                this.edges = [];
+                this.mouseX = -1000;
+                this.mouseY = -1000;
+                this.startTime = Date.now();
+                this.imageLoaded = false;
+
+                this.canvas.addEventListener('mousemove', (e) => this.handleMouseMove(e));
+                this.canvas.addEventListener('mouseleave', () => this.handleMouseLeave());
+
+                this.generateParticles();
+                this.animate();
+            }
+
+            generateParticles() {
+                // Fallback circular pattern
+                const nodeSpacing = 8;
+                const width = this.canvas.width;
+                const height = this.canvas.height;
+
+                for (let y = 50; y < height - 50; y += nodeSpacing) {
+                    for (let x = 150; x < width - 150; x += nodeSpacing) {
+                        const dx = x - width / 2;
+                        const dy = y - height / 2;
+                        const distance = Math.sqrt(dx * dx + dy * dy);
+                        const maxDistance = 150;
+
+                        if (distance < maxDistance) {
+                            const brightness = (maxDistance - distance) / maxDistance;
+                            this.nodes.push({
+                                x: x + (Math.random() - 0.5) * 100,
+                                y: y + (Math.random() - 0.5) * 100,
+                                targetX: x,
+                                targetY: y,
+                                vx: 0,
+                                vy: 0,
+                                brightness: brightness,
+                                alpha: 0,
+                                baseAlpha: 0.3 + brightness * 0.7,
+                                size: 0.8 + brightness * 1.2,
+                                color: { r: 0, g: 255, b: 65 }
+                            });
+                        }
+                    }
+                }
+
+                // Create edges
+                const maxDist = 80;
+                for (let i = 0; i < this.nodes.length; i++) {
+                    let connections = 0;
+                    for (let j = i + 1; j < this.nodes.length && connections < 8; j++) {
+                        const dx = this.nodes[i].x - this.nodes[j].x;
+                        const dy = this.nodes[i].y - this.nodes[j].y;
+                        const dist = Math.sqrt(dx * dx + dy * dy);
+
+                        if (dist < maxDist) {
+                            this.edges.push({
+                                from: i,
+                                to: j,
+                                dist: dist,
+                                maxDist: maxDist
+                            });
+                            connections++;
+                        }
+                    }
+                }
+            }
+
+            handleMouseMove(e) {
+                const rect = this.canvas.getBoundingClientRect();
+                this.mouseX = e.clientX - rect.left;
+                this.mouseY = e.clientY - rect.top;
+            }
+
+            handleMouseLeave() {
+                this.mouseX = -1000;
+                this.mouseY = -1000;
+            }
+
+            animate = () => {
+                // Clear canvas
+                this.ctx.globalCompositeOperation = 'source-over';
+                this.ctx.fillStyle = '#000000';
+                this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+
+                const elapsed = Date.now() - this.startTime;
+                const progress = Math.min(elapsed / 1000, 1);
+                const easeOut = 1 - Math.pow(1 - progress, 2.5);
+
+                // Update nodes
+                for (let node of this.nodes) {
+                    const dx = node.targetX - node.x;
+                    const dy = node.targetY - node.y;
+
+                    node.vx = (node.vx + dx * 0.06) * 0.93;
+                    node.vy = (node.vy + dy * 0.06) * 0.93;
+
+                    node.x += node.vx;
+                    node.y += node.vy;
+
+                    // Mouse interaction
+                    const mdx = node.x - this.mouseX;
+                    const mdy = node.y - this.mouseY;
+                    const mdist2 = mdx * mdx + mdy * mdy;
+                    
+                    if (mdist2 < 10000 && mdist2 > 1) {
+                        const mdist = Math.sqrt(mdist2);
+                        const force = (100 - mdist) * 0.02;
+                        node.vx += (mdx / mdist) * force;
+                        node.vy += (mdy / mdist) * force;
+                    }
+
+                    node.alpha = node.baseAlpha * easeOut;
+                }
+
+                // Draw edges
+                this.ctx.globalCompositeOperation = 'lighter';
+                this.ctx.lineWidth = 0.8;
+                this.ctx.lineCap = 'round';
+                this.ctx.lineJoin = 'round';
+
+                for (let edge of this.edges) {
+                    const n1 = this.nodes[edge.from];
+                    const n2 = this.nodes[edge.to];
+                    const opacity = (1 - edge.dist / edge.maxDist) * n1.alpha * n2.alpha * 0.5;
+                    if (opacity > 0.01) {
+                        const color = n1.color || { r: 0, g: 255, b: 65 };
+                        this.ctx.strokeStyle = `rgba(${color.r}, ${color.g}, ${color.b}, ${opacity})`;
+                        this.ctx.beginPath();
+                        this.ctx.moveTo(n1.x, n1.y);
+                        this.ctx.lineTo(n2.x, n2.y);
+                        this.ctx.stroke();
+                    }
+                }
+
+                // Draw nodes
+                this.ctx.globalCompositeOperation = 'source-over';
+                for (let node of this.nodes) {
+                    if (node.alpha > 0.01) {
+                        const color = node.color || { r: 0, g: 255, b: 65 };
+                        this.ctx.fillStyle = `rgba(${color.r}, ${color.g}, ${color.b}, ${node.alpha})`;
+                        this.ctx.beginPath();
+                        this.ctx.arc(node.x, node.y, node.size * 0.8, 0, Math.PI * 2);
+                        this.ctx.fill();
+                    }
+                }
+
+                requestAnimationFrame(this.animate);
+            }
+        }
+
+        // Fade in on scroll
+        function setupFadeInSections() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.fade-in-section').forEach((el) => {
+                observer.observe(el);
+            });
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            new ParticlePortrait('particle-canvas');
+            setupFadeInSections();
+        });
+    </script>
+</body>
+</html>
