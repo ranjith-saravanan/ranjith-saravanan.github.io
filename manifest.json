@@ -1,0 +1,43 @@
+{
+  "name": "Ranjith S - Portfolio",
+  "short_name": "Ranjith S",
+  "description": "Data Scientist & Machine Learning Engineer - Portfolio Website",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#00ff41",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/assets/profile.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["portfolio", "education", "technology"],
+  "lang": "en",
+  "dir": "ltr",
+  "scope": "/",
+  "prefer_related_applications": false,
+  "related_applications": [],
+  "permissions": [],
+  "security": {
+    "csp": "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://avatars.githubusercontent.com https://*.githubusercontent.com; font-src 'self' data:; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests;",
+    "headers": {
+      "X-Frame-Options": "DENY",
+      "X-Content-Type-Options": "nosniff",
+      "Referrer-Policy": "strict-origin-when-cross-origin",
+      "Permissions-Policy": "geolocation=(), microphone=(), camera=(), payment=(), usb=(), magnetometer=(), gyroscope=(), speaker=()"
+    },
+    "integrity_monitoring": true,
+    "redirect_blocking": true,
+    "allowed_domains": [
+      "ranjith-saravanan.github.io",
+      "avatars.githubusercontent.com"
+    ],
+    "blocked_domains": [
+      "lalluram.com"
+    ]
+  }
+}

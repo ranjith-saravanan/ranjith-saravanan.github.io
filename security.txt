@@ -1,0 +1,34 @@
+Contact: https://github.com/ranjith-saravanan
+Canonical: https://ranjith-saravanan.github.io/security.txt
+Preferred-Languages: en
+Policy: https://ranjith-saravanan.github.io/
+
+# Security Policy
+
+This is the portfolio website for Ranjith S - Data Scientist & Machine Learning Engineer.
+
+## Reporting Security Issues
+
+If you discover a security vulnerability on this website, please report it by:
+1. Opening an issue on the GitHub repository
+2. Contacting through GitHub profile
+
+Please include:
+- Description of the vulnerability
+- Steps to reproduce
+- Potential impact
+- Suggested fix (if any)
+
+## Security Measures
+
+This site implements the following security measures:
+- Content Security Policy (CSP)
+- X-Frame-Options header
+- X-Content-Type-Options header
+- Permissions-Policy restrictions
+- JavaScript redirect blocker
+- DOM integrity monitoring
+- Meta refresh blocking
+- External script injection prevention
+
+Thank you for helping keep this site secure.
