@@ -38,10 +38,11 @@ The site was experiencing redirect issues where visitors were being redirected t
 - Tracks multiple redirect attempts and issues critical alerts
 
 **How it works:**
-1. Overrides `window.location` property setter
+1. Overrides `window.location.assign()` and `window.location.replace()` methods
 2. Validates all redirect attempts against allowed/blocked domains
 3. Blocks external redirects by default (only allows same-domain or localhost)
-4. Provides detailed console logging for debugging
+4. Implements time-based reset for redirect attempt counter
+5. Provides detailed console logging for debugging
 
 ### 3. DOM Integrity Monitoring
 
@@ -180,7 +181,7 @@ Edit `index.html` and update the `BLOCKED_DOMAINS` array:
 const BLOCKED_DOMAINS = ['lalluram.com', 'example-malicious-site.com'];
 ```
 
-Also update `manifest.json`:
+Also update `security-config.json`:
 
 ```json
 "blocked_domains": [

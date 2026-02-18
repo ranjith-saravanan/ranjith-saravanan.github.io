@@ -382,7 +382,7 @@
                 const RESET_WINDOW_MS = 60000; // Reset counter after 1 minute
                 
                 // Override window.location methods (assign, replace)
-                const checkRedirect = function(targetUrl) {
+                const validateAndBlockRedirect = function(targetUrl) {
                     const now = Date.now();
                     
                     // Reset counter if enough time has passed
@@ -420,13 +420,13 @@
                 
                 // Override location methods
                 window.location.assign = function(url) {
-                    if (checkRedirect(url)) {
+                    if (validateAndBlockRedirect(url)) {
                         originalLocation.assign(url);
                     }
                 };
                 
                 window.location.replace = function(url) {
-                    if (checkRedirect(url)) {
+                    if (validateAndBlockRedirect(url)) {
                         originalLocation.replace(url);
                     }
                 };
@@ -475,15 +475,6 @@
                 console.log('[SECURITY] DOM integrity monitor active');
             }
             
-            // Block eval and Function constructor
-            function blockDangerousFunctions() {
-                // Note: We keep eval available for now since CSP blocks it, but log usage
-                const originalEval = window.eval;
-                window.eval = function() {
-                    console.warn('[SECURITY] eval() called - this may be blocked by CSP');
-                    return originalEval.apply(this, arguments);
-                };
-            }
             
             // Initialize security measures
             function initSecurity() {
@@ -492,7 +483,6 @@
                 // Run immediately
                 blockMetaRefresh();
                 monitorRedirects();
-                blockDangerousFunctions();
                 
                 // Wait for DOM to be ready before monitoring
                 if (document.readyState === 'loading') {
