@@ -1,0 +1,4 @@
+url: "https://ranjith-saravanan.github.io"
+baseurl: ""
+exclude:
+  - README.md
