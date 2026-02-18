@@ -1,0 +1,33 @@
+{
+  "_comment": "This is a custom security configuration file for documentation and reference purposes",
+  "version": "1.0",
+  "lastUpdated": "2024-02-18",
+  "csp": "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://avatars.githubusercontent.com https://*.githubusercontent.com; font-src 'self' data:; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests;",
+  "headers": {
+    "X-Frame-Options": "DENY",
+    "X-Content-Type-Options": "nosniff",
+    "Referrer-Policy": "strict-origin-when-cross-origin",
+    "Permissions-Policy": "geolocation=(), microphone=(), camera=(), payment=(), usb=(), magnetometer=(), gyroscope=(), speaker=()"
+  },
+  "features": {
+    "integrity_monitoring": true,
+    "redirect_blocking": true,
+    "meta_refresh_blocking": true,
+    "script_injection_detection": true,
+    "dom_mutation_monitoring": true
+  },
+  "allowed_domains": [
+    "ranjith-saravanan.github.io",
+    "avatars.githubusercontent.com",
+    "localhost",
+    "127.0.0.1"
+  ],
+  "blocked_domains": [
+    "lalluram.com"
+  ],
+  "notes": {
+    "unsafe_inline": "CSP includes 'unsafe-inline' for script-src and style-src to support the portfolio's inline scripts and styles. This is a known trade-off between functionality and security. For maximum security, consider moving to external files with nonces or SRI hashes.",
+    "location_override": "Cannot override window.location property due to browser security restrictions. Instead, we override location.assign() and location.replace() methods.",
+    "github_pages": "GitHub Pages does not support custom _headers file. Security headers are implemented via meta tags in HTML files."
+  }
+}

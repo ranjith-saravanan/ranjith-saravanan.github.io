@@ -3,9 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' data: https://avatars.githubusercontent.com; img-src 'self' data: https:;">
-    <meta name="referrer" content="no-referrer-when-downgrade">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://avatars.githubusercontent.com https://*.githubusercontent.com; font-src 'self' data:; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests;">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=(), payment=(), usb=(), magnetometer=(), gyroscope=(), speaker=()">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
     <link rel="canonical" href="https://ranjith-saravanan.github.io/">
+    <link rel="manifest" href="/manifest.json">
     <title>Ranjith S - Data Scientist & Machine Learning Engineer</title>
     <style>
         :root {
@@ -341,7 +345,166 @@
     </div>
 
     <script>
+        // ========================================
+        // SECURITY: Redirect Blocker & Integrity Monitor
+        // ========================================
+        
+        (function() {
+            'use strict';
+            
+            const ALLOWED_DOMAIN = 'ranjith-saravanan.github.io';
+            const BLOCKED_DOMAINS = ['lalluram.com'];
+            
+            // Store original location object methods
+            const originalLocation = {
+                href: window.location.href,
+                replace: window.location.replace.bind(window.location),
+                assign: window.location.assign.bind(window.location)
+            };
+            
+            // Prevent meta refresh redirects
+            function blockMetaRefresh() {
+                const metaTags = document.querySelectorAll('meta[http-equiv="refresh"]');
+                metaTags.forEach(meta => {
+                    const content = meta.getAttribute('content');
+                    if (content) {
+                        console.warn('[SECURITY] Blocked meta refresh redirect:', content);
+                        meta.remove();
+                    }
+                });
+            }
+            
+            // Monitor and block unauthorized redirects
+            function monitorRedirects() {
+                let redirectAttempts = 0;
+                let lastAttemptTime = Date.now();
+                const MAX_REDIRECT_ATTEMPTS = 3;
+                const RESET_WINDOW_MS = 60000; // Reset counter after 1 minute
+                
+                // Override window.location methods (assign, replace)
+                const validateAndBlockRedirect = function(targetUrl) {
+                    const now = Date.now();
+                    
+                    // Reset counter if enough time has passed
+                    if (now - lastAttemptTime > RESET_WINDOW_MS) {
+                        redirectAttempts = 0;
+                    }
+                    lastAttemptTime = now;
+                    
+                    // Check if redirect is to blocked domain
+                    for (const blockedDomain of BLOCKED_DOMAINS) {
+                        if (targetUrl.includes(blockedDomain)) {
+                            redirectAttempts++;
+                            console.error(`[SECURITY ALERT] Blocked redirect attempt #${redirectAttempts} to:`, targetUrl);
+                            
+                            if (redirectAttempts >= MAX_REDIRECT_ATTEMPTS) {
+                                console.error('[SECURITY CRITICAL] Multiple redirect attempts detected. Page may be compromised.');
+                            }
+                            return false;
+                        }
+                    }
+                    
+                    // Check if redirect is external and not allowed
+                    try {
+                        const url = new URL(targetUrl, window.location.href);
+                        if (url.hostname !== ALLOWED_DOMAIN && url.hostname !== 'localhost' && url.hostname !== '127.0.0.1') {
+                            console.warn('[SECURITY] Blocked external redirect to:', targetUrl);
+                            return false;
+                        }
+                    } catch (e) {
+                        // Relative URL, allow it
+                    }
+                    
+                    return true;
+                };
+                
+                // Override location methods
+                window.location.assign = function(url) {
+                    if (validateAndBlockRedirect(url)) {
+                        originalLocation.assign(url);
+                    }
+                };
+                
+                window.location.replace = function(url) {
+                    if (validateAndBlockRedirect(url)) {
+                        originalLocation.replace(url);
+                    }
+                };
+            }
+            
+            // Monitor DOM for suspicious changes
+            function monitorDOMIntegrity() {
+                const observer = new MutationObserver((mutations) => {
+                    mutations.forEach((mutation) => {
+                        // Check for injected scripts
+                        if (mutation.type === 'childList') {
+                            mutation.addedNodes.forEach((node) => {
+                                if (node.nodeName === 'SCRIPT') {
+                                    const src = node.getAttribute('src');
+                                    if (src && !src.startsWith('/') && !src.includes(ALLOWED_DOMAIN)) {
+                                        console.error('[SECURITY ALERT] Blocked external script injection:', src);
+                                        node.remove();
+                                    }
+                                }
+                                
+                                // Check for meta refresh tags
+                                if (node.nodeName === 'META' && node.getAttribute('http-equiv') === 'refresh') {
+                                    console.error('[SECURITY ALERT] Blocked meta refresh injection');
+                                    node.remove();
+                                }
+                                
+                                // Check for iframes
+                                if (node.nodeName === 'IFRAME') {
+                                    const iframeSrc = node.getAttribute('src');
+                                    console.warn('[SECURITY] Suspicious iframe detected:', iframeSrc);
+                                    // Could remove iframe here if needed: node.remove();
+                                }
+                            });
+                        }
+                    });
+                });
+                
+                // Start observing
+                observer.observe(document.documentElement, {
+                    childList: true,
+                    subtree: true,
+                    attributes: true,
+                    attributeFilter: ['src', 'href']
+                });
+                
+                console.log('[SECURITY] DOM integrity monitor active');
+            }
+            
+            
+            // Initialize security measures
+            function initSecurity() {
+                console.log('[SECURITY] Initializing security measures...');
+                
+                // Run immediately
+                blockMetaRefresh();
+                monitorRedirects();
+                
+                // Wait for DOM to be ready before monitoring
+                if (document.readyState === 'loading') {
+                    document.addEventListener('DOMContentLoaded', () => {
+                        monitorDOMIntegrity();
+                        blockMetaRefresh(); // Check again after DOM loaded
+                    });
+                } else {
+                    monitorDOMIntegrity();
+                }
+                
+                console.log('[SECURITY] All security measures active');
+            }
+            
+            // Start security immediately
+            initSecurity();
+            
+        })();
+        
+        // ========================================
         // Particle Portrait Canvas Animation
+        // ========================================
         class ParticlePortrait {
             constructor(canvasId) {
                 this.canvas = document.getElementById(canvasId);
@@ -683,5 +846,4 @@
 </body>
 </html>
 
- 
- 
+

@@ -1,0 +1,24 @@
+{
+  "name": "Ranjith S - Portfolio",
+  "short_name": "Ranjith S",
+  "description": "Data Scientist & Machine Learning Engineer - Portfolio Website",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#00ff41",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/assets/profile.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["portfolio", "education", "technology"],
+  "lang": "en",
+  "dir": "ltr",
+  "scope": "/",
+  "prefer_related_applications": false,
+  "related_applications": []
+}

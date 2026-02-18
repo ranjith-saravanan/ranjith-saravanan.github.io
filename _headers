@@ -1,0 +1,17 @@
+# Note: GitHub Pages may not support custom _headers file
+# These headers are also set via meta tags in index.html for browser-level enforcement
+# If deploying to Netlify, Cloudflare Pages, or similar platforms, this file will be used
+
+/*
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: geolocation=(), microphone=(), camera=(), payment=(), usb=(), magnetometer=(), gyroscope=(), speaker=()
+  Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://avatars.githubusercontent.com https://*.githubusercontent.com; font-src 'self' data:; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests;
+
+/security.txt
+  Content-Type: text/plain; charset=utf-8
+
+/manifest.json
+  Content-Type: application/manifest+json; charset=utf-8

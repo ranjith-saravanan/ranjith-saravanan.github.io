@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self';">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <title>404 - Page Not Found | Ranjith S</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Fira Code", "JetBrains Mono", "Roboto Mono", "Courier New", monospace;
+            background: linear-gradient(135deg, #010, #000);
+            background-color: #000;
+            color: #00ff41;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            text-align: center;
+            max-width: 600px;
+            padding: 40px;
+            border: 2px solid #00ff41;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.3);
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        h1 {
+            font-size: 72px;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px #00ff41;
+        }
+
+        h2 {
+            font-size: 24px;
+            margin-bottom: 30px;
+            color: #0c3;
+        }
+
+        p {
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            color: #0a2;
+        }
+
+        .warning {
+            background: rgba(255, 68, 68, 0.1);
+            border: 1px solid #f44;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 20px 0;
+            color: #f44;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: transparent;
+            color: #00ff41;
+            text-decoration: none;
+            border: 2px solid #00ff41;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            margin: 10px;
+        }
+
+        .btn:hover {
+            background: #00ff41;
+            color: #000;
+            box-shadow: 0 0 15px #00ff41;
+        }
+
+        .security-log {
+            margin-top: 30px;
+            font-size: 12px;
+            color: #0a2;
+            text-align: left;
+            background: rgba(0, 20, 0, 0.5);
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px solid #00ff4133;
+        }
+
+        .security-log div {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>404</h1>
+        <h2>Page Not Found</h2>
+        <p>The page you're looking for doesn't exist or has been moved.</p>
+        
+        <div class="warning" id="warningBox" style="display: none;">
+            <strong>⚠️ Security Notice:</strong>
+            <p id="warningMessage">Suspicious routing detected. This attempt has been logged.</p>
+        </div>
+        
+        <a href="/" class="btn">← Return Home</a>
+        
+        <div class="security-log">
+            <strong>[Security Log]</strong>
+            <div id="requestLog"></div>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            'use strict';
+            
+            // Log 404 request details
+            const logDiv = document.getElementById('requestLog');
+            const warningBox = document.getElementById('warningBox');
+            const warningMessage = document.getElementById('warningMessage');
+            
+            const requestInfo = {
+                url: window.location.href,
+                path: window.location.pathname,
+                referrer: document.referrer || 'Direct access',
+                timestamp: new Date().toISOString(),
+                userAgent: navigator.userAgent.substring(0, 50) + '...'
+            };
+            
+            // Log to console for debugging
+            console.warn('[404] Page not found:', requestInfo);
+            
+            // Display in UI
+            logDiv.innerHTML = `
+                <div>→ Requested: ${requestInfo.path}</div>
+                <div>→ Referrer: ${requestInfo.referrer}</div>
+                <div>→ Time: ${new Date(requestInfo.timestamp).toLocaleString()}</div>
+            `;
+            
+            // Check for suspicious patterns
+            const suspiciousPatterns = [
+                'lalluram.com',
+                'admin',
+                'wp-admin',
+                'phpmyadmin',
+                '../',
+                'etc/passwd',
+                'eval(',
+                '<script'
+            ];
+            
+            const isSuspicious = suspiciousPatterns.some(pattern => 
+                requestInfo.url.toLowerCase().includes(pattern.toLowerCase()) ||
+                requestInfo.referrer.toLowerCase().includes(pattern.toLowerCase())
+            );
+            
+            if (isSuspicious) {
+                warningBox.style.display = 'block';
+                warningMessage.textContent = 'Suspicious routing pattern detected. This attempt has been logged for security review.';
+                console.error('[SECURITY ALERT] Suspicious 404 request detected:', requestInfo);
+                
+                // Log to error to make it more visible
+                logDiv.innerHTML += '<div style="color: #f44; margin-top: 10px;">⚠️ SUSPICIOUS REQUEST DETECTED</div>';
+            }
+            
+            // Monitor for suspicious navigation attempts
+            // Note: We can't override window.location, but we can monitor beforeunload
+            window.addEventListener('beforeunload', function(e) {
+                console.warn('[SECURITY] Navigation attempt from 404 page detected');
+            });
+            
+            // Block meta refresh
+            const metaTags = document.querySelectorAll('meta[http-equiv="refresh"]');
+            metaTags.forEach(meta => {
+                console.warn('[SECURITY] Blocked meta refresh on 404 page');
+                meta.remove();
+            });
+            
+        })();
+    </script>
+</body>
+</html>
