@@ -172,13 +172,10 @@
                 logDiv.innerHTML += '<div style="color: #f44; margin-top: 10px;">⚠️ SUSPICIOUS REQUEST DETECTED</div>';
             }
             
-            // Prevent any redirect attempts from this page
-            Object.defineProperty(window, 'location', {
-                get: function() { return window.location; },
-                set: function(value) {
-                    console.error('[SECURITY] Blocked redirect attempt from 404 page to:', value);
-                    return false;
-                }
+            // Monitor for suspicious navigation attempts
+            // Note: We can't override window.location, but we can monitor beforeunload
+            window.addEventListener('beforeunload', function(e) {
+                console.warn('[SECURITY] Navigation attempt from 404 page detected');
             });
             
             // Block meta refresh

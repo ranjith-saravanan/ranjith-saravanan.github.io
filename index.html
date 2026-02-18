@@ -377,45 +377,59 @@
             // Monitor and block unauthorized redirects
             function monitorRedirects() {
                 let redirectAttempts = 0;
+                let lastAttemptTime = Date.now();
                 const MAX_REDIRECT_ATTEMPTS = 3;
+                const RESET_WINDOW_MS = 60000; // Reset counter after 1 minute
                 
-                // Override window.location setters
-                Object.defineProperty(window, 'location', {
-                    get: function() {
-                        return originalLocation;
-                    },
-                    set: function(value) {
-                        const targetUrl = value.toString();
-                        
-                        // Check if redirect is to blocked domain
-                        for (const blockedDomain of BLOCKED_DOMAINS) {
-                            if (targetUrl.includes(blockedDomain)) {
-                                redirectAttempts++;
-                                console.error(`[SECURITY ALERT] Blocked redirect attempt #${redirectAttempts} to:`, targetUrl);
-                                
-                                if (redirectAttempts >= MAX_REDIRECT_ATTEMPTS) {
-                                    console.error('[SECURITY CRITICAL] Multiple redirect attempts detected. Page may be compromised.');
-                                }
-                                return false;
-                            }
-                        }
-                        
-                        // Check if redirect is external and not allowed
-                        try {
-                            const url = new URL(targetUrl, window.location.href);
-                            if (url.hostname !== ALLOWED_DOMAIN && url.hostname !== 'localhost' && url.hostname !== '127.0.0.1') {
-                                console.warn('[SECURITY] Blocked external redirect to:', targetUrl);
-                                return false;
-                            }
-                        } catch (e) {
-                            // Relative URL, allow it
-                        }
-                        
-                        // Allow legitimate redirects
-                        window.location.href = targetUrl;
-                        return true;
+                // Override window.location methods (assign, replace)
+                const checkRedirect = function(targetUrl) {
+                    const now = Date.now();
+                    
+                    // Reset counter if enough time has passed
+                    if (now - lastAttemptTime > RESET_WINDOW_MS) {
+                        redirectAttempts = 0;
                     }
-                });
+                    lastAttemptTime = now;
+                    
+                    // Check if redirect is to blocked domain
+                    for (const blockedDomain of BLOCKED_DOMAINS) {
+                        if (targetUrl.includes(blockedDomain)) {
+                            redirectAttempts++;
+                            console.error(`[SECURITY ALERT] Blocked redirect attempt #${redirectAttempts} to:`, targetUrl);
+                            
+                            if (redirectAttempts >= MAX_REDIRECT_ATTEMPTS) {
+                                console.error('[SECURITY CRITICAL] Multiple redirect attempts detected. Page may be compromised.');
+                            }
+                            return false;
+                        }
+                    }
+                    
+                    // Check if redirect is external and not allowed
+                    try {
+                        const url = new URL(targetUrl, window.location.href);
+                        if (url.hostname !== ALLOWED_DOMAIN && url.hostname !== 'localhost' && url.hostname !== '127.0.0.1') {
+                            console.warn('[SECURITY] Blocked external redirect to:', targetUrl);
+                            return false;
+                        }
+                    } catch (e) {
+                        // Relative URL, allow it
+                    }
+                    
+                    return true;
+                };
+                
+                // Override location methods
+                window.location.assign = function(url) {
+                    if (checkRedirect(url)) {
+                        originalLocation.assign(url);
+                    }
+                };
+                
+                window.location.replace = function(url) {
+                    if (checkRedirect(url)) {
+                        originalLocation.replace(url);
+                    }
+                };
             }
             
             // Monitor DOM for suspicious changes
