@@ -25,8 +25,8 @@
   --text-secondary: #d4c5b9;
   --text-muted: #9a887a;
 
-  --border-color: rgba(229, 169, 60, 0.12);
-  --border-color-hover: rgba(245, 158, 11, 0.45);
+  --border-color: transparent;
+  --border-color-hover: transparent;
   --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
   --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.6);
   --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.7);
@@ -34,7 +34,7 @@
 
   /* Glassmorphism settings */
   --glass-bg: rgba(229, 169, 60, 0.04);
-  --glass-border: 1px solid rgba(229, 169, 60, 0.12);
+  --glass-border: none;
   --glass-blur: blur(16px);
   --glass-blur-sm: blur(8px);
 
@@ -75,13 +75,13 @@ body.light-theme {
   --text-secondary: #5c4231;
   --text-muted: #8a6b55;
 
-  --border-color: rgba(39, 23, 12, 0.12);
-  --border-color-hover: rgba(180, 83, 9, 0.4);
+  --border-color: transparent;
+  --border-color-hover: transparent;
   --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
   --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.08);
   --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.12);
   --glow-primary: 0 0 20px rgba(180, 83, 9, 0.2);
 
   --glass-bg: rgba(255, 255, 255, 0.7);
-  --glass-border: 1px solid rgba(39, 23, 12, 0.1);
+  --glass-border: none;
 }
