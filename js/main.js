@@ -116,6 +116,8 @@ function initCustomCursor() {
 
   if (!dot || !outline) return;
 
+  document.body.classList.add('cursor-active');
+
   window.addEventListener('mousemove', (e) => {
     document.body.classList.add('cursor-active');
     const posX = e.clientX;

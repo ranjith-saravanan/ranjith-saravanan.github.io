@@ -7,12 +7,34 @@
 /* --------------------------------------------------------------------------
    1. GLOBAL RESET & BASE STYLES
    -------------------------------------------------------------------------- */
-*,
-*::before,
-*::after {
+*, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+}
+
+/* Hide default OS/system mouse cursor on desktop to show custom web cursor exclusively */
+@media (min-width: 769px) {
+  html,
+  body,
+  a,
+  button,
+  input,
+  textarea,
+  select,
+  div,
+  span,
+  canvas,
+  img,
+  .frameless-hero-profile,
+  .hero-mini-3d-canvas,
+  .frameless-profile-img,
+  .glass-card,
+  .social-btn,
+  .nav-link,
+  .filter-btn {
+    cursor: none !important;
+  }
 }
 
 html {
