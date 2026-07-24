@@ -72,26 +72,26 @@ function initMobileMenu() {
 }
 
 /* --------------------------------------------------------------------------
-   3. SCROLL PROGRESS BAR & SCROLL SPY NAV
+   3. SCROLL PROGRESS BAR & SCROLL SPY NAV (OPTIMIZED VIA rAF)
    -------------------------------------------------------------------------- */
 function initScrollProgressAndSpy() {
   const progressBar = document.getElementById('scroll-progress-bar');
   const sections = document.querySelectorAll('section[id]');
   const navLinks = document.querySelectorAll('.nav-link');
+  let ticking = false;
 
-  window.addEventListener('scroll', () => {
-    // Scroll progress bar
-    const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+  function updateScrollState() {
+    const winScroll = window.scrollY || document.documentElement.scrollTop;
     const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-    const scrolled = (winScroll / height) * 100;
+    const scrolled = height > 0 ? (winScroll / height) * 100 : 0;
+
     if (progressBar) {
       progressBar.style.width = `${scrolled}%`;
     }
 
-    // Scroll spy active navigation link
     let currentSectionId = '';
     sections.forEach(section => {
-      const sectionTop = section.offsetTop - 120;
+      const sectionTop = section.offsetTop - 140;
       const sectionHeight = section.offsetHeight;
       if (winScroll >= sectionTop && winScroll < sectionTop + sectionHeight) {
         currentSectionId = section.getAttribute('id');
@@ -99,16 +99,26 @@ function initScrollProgressAndSpy() {
     });
 
     navLinks.forEach(link => {
-      link.classList.remove('active');
       if (link.getAttribute('href') === `#${currentSectionId}`) {
         link.classList.add('active');
+      } else {
+        link.classList.remove('active');
       }
     });
-  });
+
+    ticking = false;
+  }
+
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      window.requestAnimationFrame(updateScrollState);
+      ticking = true;
+    }
+  }, { passive: true });
 }
 
 /* --------------------------------------------------------------------------
-   4. CUSTOM FOLLOW-CURSOR
+   4. CUSTOM FOLLOW-CURSOR (OPTIMIZED HIGH PERFORMANCE LERP LOOP)
    -------------------------------------------------------------------------- */
 function initCustomCursor() {
   const dot = document.querySelector('.custom-cursor-dot');
@@ -118,28 +128,32 @@ function initCustomCursor() {
 
   document.body.classList.add('cursor-active');
 
+  let mouseX = -100, mouseY = -100;
+  let outlineX = -100, outlineY = -100;
+
   window.addEventListener('mousemove', (e) => {
     document.body.classList.add('cursor-active');
-    const posX = e.clientX;
-    const posY = e.clientY;
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    dot.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0) translate(-50%, -50%)`;
+  }, { passive: true });
 
-    dot.style.left = `${posX}px`;
-    dot.style.top = `${posY}px`;
-
-    outline.animate({
-      left: `${posX}px`,
-      top: `${posY}px`
-    }, { duration: 500, fill: 'forwards' });
-  });
+  function renderCursor() {
+    outlineX += (mouseX - outlineX) * 0.18;
+    outlineY += (mouseY - outlineY) * 0.18;
+    outline.style.transform = `translate3d(${outlineX}px, ${outlineY}px, 0) translate(-50%, -50%)`;
+    window.requestAnimationFrame(renderCursor);
+  }
+  window.requestAnimationFrame(renderCursor);
 
   // Scale cursor on hover over interactive elements
   const interactiveElements = document.querySelectorAll('a, button, .glass-card, .filter-btn, .project-card');
   interactiveElements.forEach(el => {
-    el.addEventListener('mouseenter', () => document.body.classList.add('custom-cursor-hover'));
-    el.addEventListener('mouseleave', () => document.body.classList.remove('custom-cursor-hover'));
+    el.addEventListener('mouseenter', () => document.body.classList.add('custom-cursor-hover'), { passive: true });
+    el.addEventListener('mouseleave', () => document.body.classList.remove('custom-cursor-hover'), { passive: true });
   });
 
-  window.addEventListener('mouseleave', () => document.body.classList.remove('cursor-active'));
+  window.addEventListener('mouseleave', () => document.body.classList.remove('cursor-active'), { passive: true });
 }
 
 /* --------------------------------------------------------------------------

@@ -15,13 +15,19 @@
   <meta property="og:title" content="Ranjith Saravanan | AI Systems Engineer Portfolio">
   <meta property="og:description"
     content="AI Systems Engineer working across Deep Learning, Computer Vision, and NLP. Building, deploying, and scaling neural networks into real-world applications.">
-  <meta property="og:image" content="css/style.css">
+  <meta property="og:image" content="assets/images/PROFILE.jpeg">
 
   <title>Ranjith Saravanan | AI Systems Engineer</title>
 
-  <!-- Google Fonts CDN -->
+  <!-- Preload Critical LCP Hero Image -->
+  <link rel="preload" href="assets/images/PROFILE.jpeg" as="image" type="image/jpeg" fetchpriority="high">
+
+  <!-- Resource Preconnects -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+
+  <!-- Google Fonts CDN with display=swap -->
   <link
     href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@300;400;500;600;700&family=Poppins:wght@500;600;700;800&display=swap"
     rel="stylesheet">
@@ -29,10 +35,29 @@
   <!-- Font Awesome CDN -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
-    crossorigin="anonymous" referrerpolicy="no-referrer" />
+    crossorigin="anonymous" referrerpolicy="no-referrer" media="print" onload="this.media='all'" />
+  <noscript>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  </noscript>
 
   <!-- EmailJS CDN -->
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+  <script defer type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+
+  <!-- JSON-LD Structured Data for SEO 100 -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Ranjith Saravanan",
+    "jobTitle": "AI Systems Engineer",
+    "description": "AI Systems Engineer working across Deep Learning, Computer Vision, and NLP. Building, deploying, and scaling neural networks into real-world applications.",
+    "url": "https://github.com/ranjith-saravanan",
+    "sameAs": [
+      "https://github.com/ranjith-saravanan",
+      "https://linkedin.com"
+    ]
+  }
+  </script>
 
   <!-- Custom CSS Files -->
   <link rel="stylesheet" href="css/variables.css">
@@ -151,7 +176,7 @@
             <div class="profile-ambient-aura"></div>
             <canvas id="hero-mini-3d-canvas" class="hero-mini-3d-canvas" width="400" height="400"></canvas>
             <img src="assets/images/PROFILE.jpeg" alt="RANJITH SARAVANAN AI Systems Engineer"
-              class="frameless-profile-img">
+              class="frameless-profile-img" width="320" height="320" fetchpriority="high" decoding="async">
           </div>
         </div>
       </div>
@@ -170,16 +195,18 @@
         <div class="about-content-wrapper fade-up">
           <div class="about-content glass-card">
             <div class="about-author-header">
-              <img src="assets/images/PROFILE.jpeg" alt="RANJITH SARAVANAN Profile Photo" class="about-profile-avatar">
+              <img src="assets/images/PROFILE.jpeg" alt="RANJITH SARAVANAN Profile Photo" class="about-profile-avatar"
+                width="60" height="60" loading="lazy" decoding="async">
               <div>
                 <h3 class="about-author-name">Ranjith Saravanan</h3>
                 <span class="about-author-title">AI Systems Engineer & Researcher</span>
               </div>
             </div>
             <p>
-              I am a senior Data Science & Artificial Intelligence undergraduate student with a deep fascination for
-              autonomous systems, computer vision models, and generative LLM architectures. My objective is to bridge
-              theoretical machine learning research with scalable, high-performance web systems.
+              I am a B.Tech Artificial Intelligence & Data Science student at Karunya Institute of Technology and
+              Sciences with a deep fascination for autonomous systems, machine learning models, and generative AI
+              architectures. My objective is to bridge theoretical AI research with scalable, high-performance web
+              systems.
             </p>
             <p>
               When I'm not training models on GPU clusters, I actively participate in hackathons, contribute to
@@ -198,9 +225,9 @@
             <div class="glass-card education-card">
               <div class="education-icon"><i class="fas fa-graduation-cap"></i></div>
               <div class="education-info">
-                <h4>B.S. in Computer Science & Artificial Intelligence</h4>
-                <p>State University of Technology • Honors Scholar</p>
-                <span class="education-year">2022 - 2026 (Expected)</span>
+                <h4>B.Tech in Artificial Intelligence & Data Science</h4>
+                <p>Karunya Institute of Technology and Sciences</p>
+                <span class="education-year">2024 - 2026</span>
               </div>
             </div>
 
@@ -337,178 +364,268 @@
           science solutions.</p>
       </div>
 
-      <div class="project-filters fade-up">
-        <button class="filter-btn active" data-filter="all">All Projects</button>
-        <button class="filter-btn" data-filter="ai">AI / ML</button>
-        <button class="filter-btn" data-filter="fullstack">Full Stack</button>
-        <button class="filter-btn" data-filter="cloud">Cloud & DevOps</button>
-        <button class="filter-btn" data-filter="cv">Computer Vision</button>
-        <button class="filter-btn" data-filter="web">Web & Software</button>
-      </div>
-
       <div class="projects-grid">
-        <!-- Project 1 -->
+        <!-- Project 1: Flagship Healthcare AI System -->
         <article class="glass-card project-card fade-up" data-category="ai cloud">
-          <div class="project-image-wrapper project-banner-ai">
-            <div class="project-banner-icon"><i class="fas fa-satellite-dish"></i></div>
-            <div class="project-overlay">
-              <a href="https://github.com/ranjith-saravanan" target="_blank" rel="noopener" class="social-btn"
-                aria-label="GitHub Repository"><i class="fab fa-github"></i></a>
-              <a href="#" class="social-btn" aria-label="Live Demo"><i class="fas fa-external-link-alt"></i></a>
-            </div>
-          </div>
-          <h3 class="project-title">AI Disaster Intelligence Platform</h3>
-          <p class="project-desc">Satellite image analysis using CNNs and LLMs to detect real-time flood damage and
-            predict disaster impact areas.</p>
-          <div class="project-tech">
-            <span class="tech-badge">Python</span>
-            <span class="tech-badge">PyTorch</span>
-            <span class="tech-badge">LLM API</span>
-            <span class="tech-badge">OpenCV</span>
-          </div>
-        </article>
-
-        <!-- Project 2 -->
-        <article class="glass-card project-card fade-up" data-category="ai">
           <div class="project-image-wrapper project-banner-health">
             <div class="project-banner-icon"><i class="fas fa-heartbeat"></i></div>
             <div class="project-overlay">
-              <a href="https://github.com/ranjith-saravanan" target="_blank" rel="noopener" class="social-btn"
-                aria-label="GitHub Repository"><i class="fab fa-github"></i></a>
-              <a href="#" class="social-btn" aria-label="Live Demo"><i class="fas fa-external-link-alt"></i></a>
+              <a href="https://github.com/ranjith-saravanan/AI-Powered-Healthcare-Prediction-and-Analytics-System"
+                target="_blank" rel="noopener" class="social-btn" aria-label="GitHub Repository"><i
+                  class="fab fa-github"></i></a>
+              <a href="https://github.com/ranjith-saravanan/AI-Powered-Healthcare-Prediction-and-Analytics-System"
+                target="_blank" rel="noopener" class="social-btn" aria-label="Live Demo"><i
+                  class="fas fa-external-link-alt"></i></a>
             </div>
           </div>
-          <h3 class="project-title">Stress Detection via Biometric ML</h3>
-          <p class="project-desc">Machine learning pipeline assessing physiological signals (HRV, ECG) to classify
-            stress levels with 94.2% accuracy.</p>
+          <h3 class="project-title">AI-Powered Healthcare Prediction and Analytics System</h3>
+          <p class="project-desc">End-to-end machine learning and clinical data analytics pipeline classifying
+            physiological biometric signals and predicting patient health risks with high accuracy.</p>
           <div class="project-tech">
+            <span class="tech-badge">Python</span>
+            <span class="tech-badge">PyTorch</span>
             <span class="tech-badge">Scikit-Learn</span>
-            <span class="tech-badge">Pandas</span>
             <span class="tech-badge">XGBoost</span>
           </div>
         </article>
 
-        <!-- Project 3 -->
-        <article class="glass-card project-card fade-up" data-category="cv">
-          <div class="project-image-wrapper project-banner-cv">
-            <div class="project-banner-icon"><i class="fas fa-eye"></i></div>
-            <div class="project-overlay">
-              <a href="https://github.com/ranjith-saravanan" target="_blank" rel="noopener" class="social-btn"
-                aria-label="GitHub Repository"><i class="fab fa-github"></i></a>
-              <a href="#" class="social-btn" aria-label="Live Demo"><i class="fas fa-external-link-alt"></i></a>
-            </div>
-          </div>
-          <h3 class="project-title">Face & Eye Tracking with OpenCV</h3>
-          <p class="project-desc">Real-time webcam video stream analysis detecting facial landmarks, gaze direction, and
-            drowsiness triggers.</p>
-          <div class="project-tech">
-            <span class="tech-badge">OpenCV</span>
-            <span class="tech-badge">MediaPipe</span>
-            <span class="tech-badge">Python</span>
-          </div>
-        </article>
-
-        <!-- Project 4 -->
-        <article class="glass-card project-card fade-up" data-category="ai fullstack">
-          <div class="project-image-wrapper project-banner-mnist">
+        <!-- Project 2: Stress Analysis ML Model -->
+        <article class="glass-card project-card fade-up" data-category="ai">
+          <div class="project-image-wrapper project-banner-health">
             <div class="project-banner-icon"><i class="fas fa-brain"></i></div>
             <div class="project-overlay">
-              <a href="https://github.com/ranjith-saravanan" target="_blank" rel="noopener" class="social-btn"
-                aria-label="GitHub Repository"><i class="fab fa-github"></i></a>
-              <a href="#" class="social-btn" aria-label="Live Demo"><i class="fas fa-external-link-alt"></i></a>
+              <a href="https://github.com/ranjith-saravanan/stress-analysis-ml-model" target="_blank" rel="noopener"
+                class="social-btn" aria-label="GitHub Repository"><i class="fab fa-github"></i></a>
+              <a href="https://github.com/ranjith-saravanan/stress-analysis-ml-model" target="_blank" rel="noopener"
+                class="social-btn" aria-label="Live Demo"><i class="fas fa-external-link-alt"></i></a>
             </div>
           </div>
-          <h3 class="project-title">Deep MNIST Digit Classifier</h3>
-          <p class="project-desc">Custom Convolutional Neural Network (CNN) trained on MNIST dataset with interactive
-            HTML canvas drawing predictor.</p>
+          <h3 class="project-title">Stress Analysis System with AI Buddy</h3>
+          <p class="project-desc">Machine learning pipeline assessing physiological signals (HRV, ECG, GSR) coupled with
+            an interactive conversational AI Buddy to classify stress levels and deliver real-time coping
+            recommendations.</p>
           <div class="project-tech">
-            <span class="tech-badge">TensorFlow</span>
-            <span class="tech-badge">JavaScript</span>
-            <span class="tech-badge">Canvas API</span>
+            <span class="tech-badge">Python</span>
+            <span class="tech-badge">Scikit-Learn</span>
+            <span class="tech-badge">AI Buddy</span>
+            <span class="tech-badge">XGBoost</span>
+          </div>
+        </article>
+        <!-- Project 3: Disaster Management and Alert System -->
+        <article class="glass-card project-card fade-up" data-category="ai cloud web">
+          <div class="project-image-wrapper project-banner-health"
+            style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.25), rgba(229, 169, 60, 0.2));">
+            <div class="project-banner-icon"><i class="fas fa-exclamation-triangle" style="color: #ef4444;"></i></div>
+            <div class="project-overlay">
+              <a href="https://github.com/ranjith-saravanan/disaster-management-and-alert.git" target="_blank"
+                rel="noopener" class="social-btn" aria-label="GitHub Repository"><i class="fab fa-github"></i></a>
+              <a href="https://github.com/ranjith-saravanan/disaster-management-and-alert.git" target="_blank"
+                rel="noopener" class="social-btn" aria-label="Live Demo"><i class="fas fa-external-link-alt"></i></a>
+            </div>
+          </div>
+          <h3 class="project-title">Disaster Management and Alert System</h3>
+          <p class="project-desc">Real-time disaster risk prediction, early warning notifications, and emergency
+            response management system leveraging AI spatial analytics and automated broadcasting telemetry alerts.</p>
+          <div class="project-tech">
+            <span class="tech-badge">Python</span>
+            <span class="tech-badge">Geospatial AI</span>
+            <span class="tech-badge">FastAPI</span>
+            <span class="tech-badge">Alert Telemetry</span>
           </div>
         </article>
 
-        <!-- Project 5 -->
+        <!-- Project 4: Vehicle Maintenance Tracker -->
         <article class="glass-card project-card fade-up" data-category="web fullstack">
           <div class="project-image-wrapper project-banner-vehicle">
             <div class="project-banner-icon"><i class="fas fa-car-side"></i></div>
             <div class="project-overlay">
-              <a href="https://github.com/ranjith-saravanan" target="_blank" rel="noopener" class="social-btn"
-                aria-label="GitHub Repository"><i class="fab fa-github"></i></a>
-              <a href="#" class="social-btn" aria-label="Live Demo"><i class="fas fa-external-link-alt"></i></a>
+              <a href="https://github.com/ranjith-saravanan/vehicle-maintenance-tracker.git" target="_blank"
+                rel="noopener" class="social-btn" aria-label="GitHub Repository"><i class="fab fa-github"></i></a>
+              <a href="https://github.com/ranjith-saravanan/vehicle-maintenance-tracker.git" target="_blank"
+                rel="noopener" class="social-btn" aria-label="Live Demo"><i class="fas fa-external-link-alt"></i></a>
             </div>
           </div>
-          <h3 class="project-title">Smart Vehicle Management System</h3>
-          <p class="project-desc">Desktop & web application for fleet tracking, automated maintenance scheduling, and
-            fuel optimization analytics.</p>
-          <div class="project-tech">
-            <span class="tech-badge">Java</span>
-            <span class="tech-badge">MySQL</span>
-            <span class="tech-badge">HTML/CSS</span>
-          </div>
-        </article>
-
-        <!-- Project 6 -->
-        <article class="glass-card project-card fade-up" data-category="ai">
-          <div class="project-image-wrapper project-banner-churn">
-            <div class="project-banner-icon"><i class="fas fa-chart-line"></i></div>
-            <div class="project-overlay">
-              <a href="https://github.com/ranjith-saravanan" target="_blank" rel="noopener" class="social-btn"
-                aria-label="GitHub Repository"><i class="fab fa-github"></i></a>
-              <a href="#" class="social-btn" aria-label="Live Demo"><i class="fas fa-external-link-alt"></i></a>
-            </div>
-          </div>
-          <h3 class="project-title">Telecom Customer Churn Predictor</h3>
-          <p class="project-desc">End-to-end data processing and classification model highlighting key drivers of
-            customer attrition in telecom datasets.</p>
+          <h3 class="project-title">Vehicle Maintenance Tracker</h3>
+          <p class="project-desc">Automated fleet tracking, vehicle service log management, predictive maintenance
+            scheduling, and fuel optimization analytics platform.</p>
           <div class="project-tech">
             <span class="tech-badge">Python</span>
-            <span class="tech-badge">Scikit-Learn</span>
-            <span class="tech-badge">Seaborn</span>
+            <span class="tech-badge">Full-Stack</span>
+            <span class="tech-badge">SQL</span>
+            <span class="tech-badge">Predictive Analytics</span>
           </div>
         </article>
 
-        <!-- Project 7: Cloud & MLOps -->
-        <article class="glass-card project-card fade-up" data-category="fullstack cloud web">
+        <!-- Project 5: Sahayak Admin Portal & Platform -->
+        <article class="glass-card project-card fade-up" data-category="web fullstack cloud">
           <div class="project-image-wrapper project-banner-ai">
-            <div class="project-banner-icon"><i class="fas fa-cloud"></i></div>
+            <div class="project-banner-icon"><i class="fas fa-user-shield"></i></div>
             <div class="project-overlay">
-              <a href="https://github.com/ranjith-saravanan" target="_blank" rel="noopener" class="social-btn"
+              <a href="https://github.com/Rithikzz/Sahayak--admin.git" target="_blank" rel="noopener" class="social-btn"
                 aria-label="GitHub Repository"><i class="fab fa-github"></i></a>
-              <a href="#" class="social-btn" aria-label="Live Demo"><i class="fas fa-external-link-alt"></i></a>
+              <a href="https://github.com/Rithikzz/Sahayak--admin.git" target="_blank" rel="noopener" class="social-btn"
+                aria-label="Live Demo"><i class="fas fa-external-link-alt"></i></a>
             </div>
           </div>
-          <h3 class="project-title">Cloud-Native Serverless AI & MLOps Platform</h3>
-          <p class="project-desc">Full-stack microservices architecture deployed on AWS Lambda & Docker containers for
-            real-time model inference, automated CI/CD pipelines, and cloud telemetry analytics.</p>
+          <h3 class="project-title">Sahayak Admin Portal & Platform</h3>
+          <p class="project-desc">Comprehensive administrative dashboard, user management portal, and service dispatch
+            platform empowering streamlined assistance operations and telemetry monitoring.</p>
           <div class="project-tech">
-            <span class="tech-badge">AWS Lambda</span>
-            <span class="tech-badge">Docker</span>
-            <span class="tech-badge">FastAPI</span>
-            <span class="tech-badge">PostgreSQL</span>
+            <span class="tech-badge">React</span>
+            <span class="tech-badge">Full-Stack</span>
+            <span class="tech-badge">REST APIs</span>
+            <span class="tech-badge">Admin Telemetry</span>
           </div>
         </article>
 
-        <!-- Project 8: Data Science & Analytics -->
-        <article class="glass-card project-card fade-up" data-category="ai cloud fullstack">
+        <!-- Project 6: Sahayak Smart Interactive Kiosk -->
+        <article class="glass-card project-card fade-up" data-category="web fullstack cv">
           <div class="project-image-wrapper project-banner-cv">
-            <div class="project-banner-icon"><i class="fas fa-chart-line"></i></div>
+            <div class="project-banner-icon"><i class="fas fa-desktop"></i></div>
             <div class="project-overlay">
-              <a href="https://github.com/ranjith-saravanan" target="_blank" rel="noopener" class="social-btn"
-                aria-label="GitHub Repository"><i class="fab fa-github"></i></a>
-              <a href="#" class="social-btn" aria-label="Live Demo"><i class="fas fa-external-link-alt"></i></a>
+              <a href="https://github.com/allenjohn006/Sahayak--kiosk.git" target="_blank" rel="noopener"
+                class="social-btn" aria-label="GitHub Repository"><i class="fab fa-github"></i></a>
+              <a href="https://github.com/allenjohn006/Sahayak--kiosk.git" target="_blank" rel="noopener"
+                class="social-btn" aria-label="Live Demo"><i class="fas fa-external-link-alt"></i></a>
             </div>
           </div>
-          <h3 class="project-title">Enterprise Predictive Analytics & Big Data Dashboard</h3>
-          <p class="project-desc">Full-stack data science platform leveraging BigQuery and cloud data pipelines for
-            real-time stream processing, anomaly detection, and interactive BI visualizers.</p>
+          <h3 class="project-title">Sahayak Smart Interactive Kiosk</h3>
+          <p class="project-desc">Interactive self-service assistance kiosk application featuring intuitive touchscreen
+            UI, automated multi-lingual guidance, and real-time service request dispatching.</p>
           <div class="project-tech">
-            <span class="tech-badge">Apache Spark</span>
-            <span class="tech-badge">Python</span>
-            <span class="tech-badge">Cloud BigQuery</span>
-            <span class="tech-badge">Chart.js</span>
+            <span class="tech-badge">React</span>
+            <span class="tech-badge">Touch Interface</span>
+            <span class="tech-badge">Full-Stack</span>
+            <span class="tech-badge">Smart Telemetry</span>
           </div>
         </article>
+      </div>
+    </section>
+
+    <!-- SECTION: VISUAL TECH STACK COMMAND CENTER -->
+    <section id="tech-stack" class="container">
+      <div class="section-header fade-up">
+        <span class="section-subtitle">Core Stack</span>
+        <h2 class="section-title">Tech Stack & Ecosystem</h2>
+        <p class="section-description">A visual breakdown of core competencies spanning Artificial Intelligence, LLM RAG
+          architectures, Data Science, Full-Stack Web Development, and Cloud DevOps.</p>
+      </div>
+
+      <div class="tech-ecosystem-grid fade-up">
+        <!-- 1. AI & DEEP LEARNING -->
+        <div class="glass-card tech-ecosystem-card">
+          <div class="tech-card-header">
+            <div class="tech-card-header-icon"><i class="fas fa-brain"></i></div>
+            <div>
+              <h3 class="tech-category-title">AI & Deep Learning</h3>
+              <span class="tech-category-tag">Neural Nets & Vision</span>
+            </div>
+          </div>
+          <div class="tech-badge-container">
+            <div class="tech-badge-card"><i class="fas fa-brain"></i> <span>PyTorch</span> <span
+                class="badge-level">96%</span></div>
+            <div class="tech-badge-card"><i class="fab fa-python"></i> <span>Python</span> <span
+                class="badge-level">98%</span></div>
+            <div class="tech-badge-card"><i class="fas fa-microchip"></i> <span>TensorFlow</span> <span
+                class="badge-level">90%</span></div>
+            <div class="tech-badge-card"><i class="fas fa-eye"></i> <span>OpenCV</span> <span
+                class="badge-level">94%</span></div>
+            <div class="tech-badge-card"><i class="fas fa-cogs"></i> <span>Scikit-Learn</span> <span
+                class="badge-level">95%</span></div>
+          </div>
+        </div>
+
+        <!-- 2. LLMS, RAG & GEN AI -->
+        <div class="glass-card tech-ecosystem-card">
+          <div class="tech-card-header">
+            <div class="tech-card-header-icon"><i class="fas fa-robot"></i></div>
+            <div>
+              <h3 class="tech-category-title">LLMs, RAG & GenAI</h3>
+              <span class="tech-category-tag">Prompting & Vector Search</span>
+            </div>
+          </div>
+          <div class="tech-badge-container">
+            <div class="tech-badge-card"><i class="fas fa-link"></i> <span>LangChain</span> <span
+                class="badge-level">92%</span></div>
+            <div class="tech-badge-card"><i class="fas fa-database"></i> <span>FAISS Vector DB</span> <span
+                class="badge-level">91%</span></div>
+            <div class="tech-badge-card"><i class="fas fa-magic"></i> <span>OpenAI API</span> <span
+                class="badge-level">94%</span></div>
+            <div class="tech-badge-card"><i class="fas fa-cubes"></i> <span>Hugging Face</span> <span
+                class="badge-level">89%</span></div>
+            <div class="tech-badge-card"><i class="fas fa-comments"></i> <span>AI Buddy</span> <span
+                class="badge-level">95%</span></div>
+          </div>
+        </div>
+
+        <!-- 3. DATA SCIENCE & ANALYTICS -->
+        <div class="glass-card tech-ecosystem-card">
+          <div class="tech-card-header">
+            <div class="tech-card-header-icon"><i class="fas fa-chart-line"></i></div>
+            <div>
+              <h3 class="tech-category-title">Data Science & Analytics</h3>
+              <span class="tech-category-tag">Statistical EDA & Pipelines</span>
+            </div>
+          </div>
+          <div class="tech-badge-container">
+            <div class="tech-badge-card"><i class="fas fa-table"></i> <span>Pandas</span> <span
+                class="badge-level">97%</span></div>
+            <div class="tech-badge-card"><i class="fas fa-square-root-alt"></i> <span>NumPy</span> <span
+                class="badge-level">96%</span></div>
+            <div class="tech-badge-card"><i class="fas fa-chart-bar"></i> <span>Matplotlib</span> <span
+                class="badge-level">93%</span></div>
+            <div class="tech-badge-card"><i class="fas fa-chart-pie"></i> <span>Seaborn</span> <span
+                class="badge-level">92%</span></div>
+            <div class="tech-badge-card"><i class="fas fa-calculator"></i> <span>SciPy</span> <span
+                class="badge-level">88%</span></div>
+          </div>
+        </div>
+
+        <!-- 4. FULL-STACK WEB ENGINEERING -->
+        <div class="glass-card tech-ecosystem-card">
+          <div class="tech-card-header">
+            <div class="tech-card-header-icon"><i class="fas fa-code"></i></div>
+            <div>
+              <h3 class="tech-category-title">Full-Stack Web</h3>
+              <span class="tech-category-tag">Frontend & Async REST APIs</span>
+            </div>
+          </div>
+          <div class="tech-badge-container">
+            <div class="tech-badge-card"><i class="fab fa-html5"></i> <span>HTML5 / CSS3</span> <span
+                class="badge-level">98%</span></div>
+            <div class="tech-badge-card"><i class="fab fa-js-square"></i> <span>JavaScript</span> <span
+                class="badge-level">95%</span></div>
+            <div class="tech-badge-card"><i class="fab fa-react"></i> <span>React / Next.js</span> <span
+                class="badge-level">90%</span></div>
+            <div class="tech-badge-card"><i class="fas fa-bolt"></i> <span>FastAPI</span> <span
+                class="badge-level">92%</span></div>
+            <div class="tech-badge-card"><i class="fas fa-database"></i> <span>PostgreSQL</span> <span
+                class="badge-level">90%</span></div>
+          </div>
+        </div>
+
+        <!-- 5. CLOUD & MLOPS -->
+        <div class="glass-card tech-ecosystem-card">
+          <div class="tech-card-header">
+            <div class="tech-card-header-icon"><i class="fas fa-cloud"></i></div>
+            <div>
+              <h3 class="tech-category-title">Cloud & MLOps</h3>
+              <span class="tech-category-tag">DevOps & Serverless</span>
+            </div>
+          </div>
+          <div class="tech-badge-container">
+            <div class="tech-badge-card"><i class="fab fa-aws"></i> <span>AWS Cloud</span> <span
+                class="badge-level">88%</span></div>
+            <div class="tech-badge-card"><i class="fab fa-docker"></i> <span>Docker</span> <span
+                class="badge-level">89%</span></div>
+            <div class="tech-badge-card"><i class="fab fa-git-alt"></i> <span>Git & CI/CD</span> <span
+                class="badge-level">95%</span></div>
+            <div class="tech-badge-card"><i class="fab fa-linux"></i> <span>Linux Shell</span> <span
+                class="badge-level">94%</span></div>
+            <div class="tech-badge-card"><i class="fas fa-server"></i> <span>Lambda</span> <span
+                class="badge-level">87%</span></div>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -612,10 +729,10 @@
       <div class="github-stats-grid fade-up">
         <img class="stat-card-img"
           src="https://github-readme-stats.vercel.app/api?username=octocat&show_icons=true&theme=dark"
-          alt="GitHub Stats" loading="lazy">
+          alt="GitHub Stats" loading="lazy" decoding="async" width="495" height="195">
         <img class="stat-card-img"
           src="https://github-readme-stats.vercel.app/api/top-langs/?username=octocat&layout=compact&theme=dark"
-          alt="Top Languages Stats" loading="lazy">
+          alt="Top Languages Stats" loading="lazy" decoding="async" width="495" height="195">
       </div>
     </section>
 
@@ -770,6 +887,7 @@
   <button id="back-to-top" class="back-to-top" aria-label="Back to top">
     <i class="fas fa-arrow-up"></i>
   </button>
+
 
   <!-- JavaScript Modules -->
   <script defer src="js/main.js"></script>

@@ -51,7 +51,7 @@ function initCanvasParticles() {
   window.addEventListener('resize', () => {
     width = canvas.width = window.innerWidth;
     height = canvas.height = window.innerHeight;
-  });
+  }, { passive: true });
 
   const particles = [];
   const particleCount = Math.min(Math.floor(width / 18), 75);
@@ -60,12 +60,12 @@ function initCanvasParticles() {
   window.addEventListener('mousemove', (e) => {
     mouse.x = e.clientX;
     mouse.y = e.clientY;
-  });
+  }, { passive: true });
 
   window.addEventListener('mouseleave', () => {
     mouse.x = null;
     mouse.y = null;
-  });
+  }, { passive: true });
 
   class Particle {
     constructor() {
@@ -112,25 +112,27 @@ function initCanvasParticles() {
   }
 
   function animate() {
-    ctx.clearRect(0, 0, width, height);
+    if (!document.hidden) {
+      ctx.clearRect(0, 0, width, height);
 
-    for (let i = 0; i < particles.length; i++) {
-      particles[i].update();
-      particles[i].draw();
+      for (let i = 0; i < particles.length; i++) {
+        particles[i].update();
+        particles[i].draw();
 
-      for (let j = i + 1; j < particles.length; j++) {
-        const dx = particles[i].x - particles[j].x;
-        const dy = particles[i].y - particles[j].y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
 
-        if (dist < 130) {
-          ctx.beginPath();
-          ctx.moveTo(particles[i].x, particles[i].y);
-          ctx.lineTo(particles[j].x, particles[j].y);
-          const alpha = (1 - dist / 130) * 0.3;
-          ctx.strokeStyle = `rgba(249, 115, 22, ${alpha})`;
-          ctx.lineWidth = 0.8;
-          ctx.stroke();
+          if (dist < 130) {
+            ctx.beginPath();
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            const alpha = (1 - dist / 130) * 0.3;
+            ctx.strokeStyle = `rgba(249, 115, 22, ${alpha})`;
+            ctx.lineWidth = 0.8;
+            ctx.stroke();
+          }
         }
       }
     }
@@ -512,87 +514,89 @@ function init3DNeuralCoreStage() {
   }
 
   function renderHero3DDots() {
-    ctx.clearRect(0, 0, size, size);
-    time += 0.015;
+    if (!document.hidden) {
+      ctx.clearRect(0, 0, size, size);
+      time += 0.015;
 
-    rotX += 0.003;
-    rotY += 0.005;
+      rotX += 0.003;
+      rotY += 0.005;
 
-    const projected = dots.map((dot) => {
-      const wave = Math.sin(time * 2 + dot.phase) * 8;
-      const p = project3D(dot.origX, dot.origY + wave, dot.origZ);
-      p.color = dot.color;
-      p.baseRadius = dot.baseRadius;
+      const projected = dots.map((dot) => {
+        const wave = Math.sin(time * 2 + dot.phase) * 8;
+        const p = project3D(dot.origX, dot.origY + wave, dot.origZ);
+        p.color = dot.color;
+        p.baseRadius = dot.baseRadius;
 
-      // Mouse Proximity Replication Check
-      const distToMouse = Math.hypot(p.x - mousePos.x, p.y - mousePos.y);
-      if (distToMouse < 45 && Math.random() < 0.35) {
-        // Replicate micro twin dot
-        replicatedClones.push({
-          x: p.x,
-          y: p.y,
-          vx: (Math.random() - 0.5) * 2.5,
-          vy: (Math.random() - 0.5) * 2.5,
-          radius: p.baseRadius * 0.9,
-          color: '#faf6f0',
-          life: 1.0,
-          decay: 0.04
-        });
-      }
+        // Mouse Proximity Replication Check
+        const distToMouse = Math.hypot(p.x - mousePos.x, p.y - mousePos.y);
+        if (distToMouse < 45 && Math.random() < 0.35) {
+          // Replicate micro twin dot
+          replicatedClones.push({
+            x: p.x,
+            y: p.y,
+            vx: (Math.random() - 0.5) * 2.5,
+            vy: (Math.random() - 0.5) * 2.5,
+            radius: p.baseRadius * 0.9,
+            color: '#faf6f0',
+            life: 1.0,
+            decay: 0.04
+          });
+        }
 
-      return p;
-    });
+        return p;
+      });
 
-    projected.sort((a, b) => b.z - a.z);
+      projected.sort((a, b) => b.z - a.z);
 
-    // Warm Amber Neural mesh connections
-    for (let i = 0; i < projected.length; i++) {
-      const p1 = projected[i];
-      if (p1.z > 50) continue;
-      for (let j = i + 1; j < projected.length; j++) {
-        const p2 = projected[j];
-        const dist = Math.hypot(p1.x - p2.x, p1.y - p2.y);
-        if (dist < 48) {
-          const alpha = (1 - dist / 48) * 0.35 * Math.min(p1.scale, p2.scale);
-          ctx.beginPath();
-          ctx.moveTo(p1.x, p1.y);
-          ctx.lineTo(p2.x, p2.y);
-          ctx.strokeStyle = `rgba(229, 169, 60, ${alpha})`;
-          ctx.lineWidth = 0.8;
-          ctx.stroke();
+      // Warm Amber Neural mesh connections
+      for (let i = 0; i < projected.length; i++) {
+        const p1 = projected[i];
+        if (p1.z > 50) continue;
+        for (let j = i + 1; j < projected.length; j++) {
+          const p2 = projected[j];
+          const dist = Math.hypot(p1.x - p2.x, p1.y - p2.y);
+          if (dist < 48) {
+            const alpha = (1 - dist / 48) * 0.35 * Math.min(p1.scale, p2.scale);
+            ctx.beginPath();
+            ctx.moveTo(p1.x, p1.y);
+            ctx.lineTo(p2.x, p2.y);
+            ctx.strokeStyle = `rgba(229, 169, 60, ${alpha})`;
+            ctx.lineWidth = 0.8;
+            ctx.stroke();
+          }
         }
       }
+
+      // Render 3D Dots
+      projected.forEach((p) => {
+        const r = Math.max(1, p.baseRadius * p.scale);
+        const alpha = Math.max(0.25, Math.min(1, (p.z + 150) / 280));
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, r, 0, Math.PI * 2);
+        ctx.fillStyle = p.color;
+        ctx.globalAlpha = alpha;
+        ctx.fill();
+        ctx.globalAlpha = 1.0;
+      });
+
+      // Render & Update Replicated Clones
+      replicatedClones = replicatedClones.filter(clone => clone.life > 0);
+      replicatedClones.forEach((clone) => {
+        clone.x += clone.vx;
+        clone.y += clone.vy;
+        clone.life -= clone.decay;
+
+        ctx.beginPath();
+        ctx.arc(clone.x, clone.y, Math.max(0.5, clone.radius * clone.life), 0, Math.PI * 2);
+        ctx.fillStyle = clone.color;
+        ctx.shadowColor = '#e5a93c';
+        ctx.shadowBlur = 10;
+        ctx.globalAlpha = Math.max(0, clone.life);
+        ctx.fill();
+        ctx.shadowBlur = 0;
+        ctx.globalAlpha = 1.0;
+      });
     }
-
-    // Render 3D Dots
-    projected.forEach((p) => {
-      const r = Math.max(1, p.baseRadius * p.scale);
-      const alpha = Math.max(0.25, Math.min(1, (p.z + 150) / 280));
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, r, 0, Math.PI * 2);
-      ctx.fillStyle = p.color;
-      ctx.globalAlpha = alpha;
-      ctx.fill();
-      ctx.globalAlpha = 1.0;
-    });
-
-    // Render & Update Replicated Clones
-    replicatedClones = replicatedClones.filter(clone => clone.life > 0);
-    replicatedClones.forEach((clone) => {
-      clone.x += clone.vx;
-      clone.y += clone.vy;
-      clone.life -= clone.decay;
-
-      ctx.beginPath();
-      ctx.arc(clone.x, clone.y, Math.max(0.5, clone.radius * clone.life), 0, Math.PI * 2);
-      ctx.fillStyle = clone.color;
-      ctx.shadowColor = '#e5a93c';
-      ctx.shadowBlur = 10;
-      ctx.globalAlpha = Math.max(0, clone.life);
-      ctx.fill();
-      ctx.shadowBlur = 0;
-      ctx.globalAlpha = 1.0;
-    });
 
     requestAnimationFrame(renderHero3DDots);
   }
